@@ -1,0 +1,14 @@
+\section{重回帰分析とWord2Vecによる次元圧縮}
+重回帰分析の協調フィルタリングへの応用では,偏回帰係数から目的アイテムの予測に影響を与える他のアイテムの推定ができる.
+本研究では,過学習の解決法である正則化と次元圧縮についてスコア予測精度を検証する.
+正則化法にはL1・L2正則化を適用し,次元圧縮法にはWord2Vecを適用した手法を提案する.
+Word2Vec\cite{mik}は自然言語処理技術のひとつで,スコアがあるところのみを学習に用いるため低計算コストでの次元圧縮が期待できる.
+
+提案する次元圧縮法では，Word2Vecにより$m$人のユーザが$n$個のアイテムを評価したユーザ-アイテム行列$\boldsymbol{X} \in \mathbb{R}^{m \times n}$から線形写像$\boldsymbol{W} \in \mathbb{R}^{n \times k}$を算出する．
+ここで，$k$は圧縮次元数（$k<n$）とする．
+$\boldsymbol{X}$と$\boldsymbol{W}$から目的変数を除いた$\boldsymbol{X}_{i} \in \mathbb{R}^{m \times (n-1)}$と$\boldsymbol{W}_{i} \in \mathbb{R}^{(n-1) \times k}$を作成し，$\boldsymbol{X}'_{i} = \boldsymbol{X}_{i} \boldsymbol{W}_{i}$により$\boldsymbol{X}_{i}$の$k$次元表現$\boldsymbol{X}'_{i}$を得る．
+回帰式は$\boldsymbol{y}_{i} =  \boldsymbol{\alpha}_{0} + \boldsymbol{X}_{i} \boldsymbol{\alpha} $であり， $\boldsymbol{\alpha}_{0}$と$\boldsymbol{\alpha}$を推定する．
+このとき，$\boldsymbol{y}_{i}$は目的変数を評価している$m'$ユーザ分のスコアである．
+また，圧縮空間での回帰式は$\boldsymbol{y}_{i} =  \boldsymbol{\beta}_{0} + \boldsymbol{X}'_{i} \boldsymbol{\beta} $であり， $\boldsymbol{\beta}_{0}$と$\boldsymbol{\beta}$を推定する．
+ここで，$\boldsymbol{y}_{i} = \boldsymbol{\beta}_0 + \boldsymbol{X}'_{i} \boldsymbol{\beta} = \boldsymbol{\beta}_{0} + \boldsymbol{X}_{i} \boldsymbol{W}_{i} \boldsymbol{\beta}$であるため，$\boldsymbol{\alpha}_{0} = \boldsymbol{\beta}_{0}$，$\boldsymbol{\alpha} = \boldsymbol{W}_{i} \boldsymbol{\beta}$
+とすることで偏回帰係数$\boldsymbol{\beta}$から偏回帰係数$\boldsymbol{\alpha}$を計算できる．
