@@ -1,16 +1,2 @@
 \section{word2vecによる次元圧縮と重回帰分析}
-重回帰分析では，変数の数に対して観測データの数が10倍程度必要とされている\cite{ped}．
-また，一般にユーザ-アイテム行列は巨大な疎行列であり，次元が高く解析に利用できるデータは少なくなる傾向にある．
-そのため，ユーザ-アイテム行列を直接重回帰分析するとパラメータが推定できない可能性がある．
-この課題の解決法として，正則化と次元圧縮のアプローチがある．
-巨大なユーザ-アイテム行列に正則化を適用すると計算コストが高くなることが想定されるため，次元圧縮のアプローチとして，本研究では自然言語処理技術のひとつであるword2vec\cite{mik}の活用を試みる．
-word2vecは，評価されているデータのみを用いて学習するため計算コストが低く，巨大なユーザ-アイテム行列を低い計算コストで次元圧縮することが期待できる．
-
-提案法では，まずword2vecにより学習用ユーザ-アイテム行列$X \in \mathbb{R}^{m \times n}$から線形写像$W \in \mathbb{R}^{n \times k}$を算出する．
-ここで，$m$はユーザ数，$n$はアイテム数，$k$は次元数（$k<n$）である．
-次に，$X' = X W$により$X$の$k$次元表現を得る．
-重回帰分析による予測モデルは$\boldsymbol{y} =  \boldsymbol{\alpha_0} + X \boldsymbol{\alpha}$であり，$\boldsymbol{y}$と$X$から$\boldsymbol{\alpha_0}$と$\boldsymbol{\alpha}$を推定する．
-このとき，$\boldsymbol{y}$は$m$ユーザ分のアイテムのスコアとする．
-一方で，圧縮空間での重回帰分析の予測モデルは$\boldsymbol{y} =  \boldsymbol{\beta_0} + X' \boldsymbol{\beta}$であり，$\boldsymbol{y}$と$X'$から$\boldsymbol{\beta_0}$と$\boldsymbol{\beta}$を推定する．
-ここで，$\boldsymbol{y} = \boldsymbol{\beta_0} + X' \boldsymbol{\beta} = \boldsymbol{\beta_0} + X W \boldsymbol{\beta}$であり，$\boldsymbol{\alpha_0} = \boldsymbol{\beta_0}$，$\boldsymbol{\alpha} = W \boldsymbol{\beta}$とすることで圧縮空間で重回帰分析をして得られたパラメータ$\boldsymbol{\beta}$から直接重回帰分析をして得られるパラメータ$\boldsymbol{\alpha}$を計算することができる．
 
